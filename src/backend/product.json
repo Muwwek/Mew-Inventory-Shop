@@ -1,0 +1,29 @@
+[
+    {
+        "id": "1",
+        "name": "Yonex astrox 100 zz",
+        "stock": 20,
+        "category": "Badminton Rackets",
+        "location": "3 stores",
+        "status": "Active",
+        "image": "http://119.59.102.61/std6630202805/imgs/y100zz.png"
+    },
+    {
+        "id": "2",
+        "name": "lining 3d calibar 900",
+        "stock": 15,
+        "category": "Badminton Rackets",
+        "location": "5 stores",
+        "status": "Active",
+        "image": "http://119.59.102.61/std6630202805/imgs/ln900.png"
+    },
+    {
+        "id": "3",
+        "name": "Yonex astrox 99 pro",
+        "stock": 12,
+        "category": "Badminton Rackets",
+        "location": "5 stores",
+        "status": "discontinued",
+        "image": "http://119.59.102.61/std6630202805/imgs/y99pro.png"
+    }
+]
