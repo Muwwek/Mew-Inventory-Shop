@@ -12,7 +12,7 @@ interface ProductHeaderProps {
 const ProductHeader: React.FC<ProductHeaderProps> = ({ onSearch, onFilter, onAddProduct }) => {
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="dark-content" backgroundColor="■#f8f9fa" />
+      <StatusBar barStyle="dark-content" backgroundColor="#f8f9fa" />
       
       {/* Header */}
       <View style={styles.header}>
