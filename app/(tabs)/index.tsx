@@ -1,4 +1,5 @@
 //app/(tabs)/index.tsx
+//npm start
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, SafeAreaView } from 'react-native';
 import ProductsScreen from './ProductsScreen';
@@ -11,8 +12,8 @@ export default function AppLayout() {
     switch (currentScreen) {
       case 'products':
         return <ProductsScreen />;
-      // case 'dashboard':
-      //   return <ProductsScreen />;
+      case 'dashboard':
+        return <ProductsScreen />;
       default:
         return (
           <View style={styles.defaultScreen}>

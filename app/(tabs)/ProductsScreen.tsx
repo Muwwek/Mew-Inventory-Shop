@@ -1,15 +1,17 @@
-// app/(tabs)/ProductsScreen.tsx
 import React, { useEffect, useState } from 'react';
 import {
   Image,
   ScrollView,
-  StyleSheet,
   Text,
   TouchableOpacity,
   View,
   ActivityIndicator,
+  Alert,
 } from 'react-native';
+import { styles } from './ProductsScreen.styles';
 import ProductHeader from './ProductHeader';
+// แก้ไข path การ import
+import { apiCall} from '../utils/api';
 
 type Product = {
   id: string;
@@ -19,6 +21,7 @@ type Product = {
   location: string;
   status: string;
   image: string;
+  storeAvailable11ty?: any[];
 };
 
 const ProductList = ({ products }: { products: Product[] }) => {
@@ -28,7 +31,7 @@ const ProductList = ({ products }: { products: Product[] }) => {
         <View key={product.id} style={styles.productCard}>
           <View style={styles.cardTop}>
             <Image
-              source={{ uri: product.image }}
+              source={{ uri: product.image || 'https://via.placeholder.com/150' }}
               style={styles.productImage}
             />
             <View style={styles.productDetails}>
@@ -63,19 +66,46 @@ const ProductList = ({ products }: { products: Product[] }) => {
 export default function ProductsScreen() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const fetchProducts = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+  
+      // เรียก API ได้เลย ไม่ต้องสนใจ token
+      const data = await apiCall("/products");
+  
+      if (!Array.isArray(data)) {
+        throw new Error('Invalid data format received');
+      }
+  
+      const parsedData = data.map((product: any) => ({
+        ...product,
+        storeAvailable11ty: typeof product.storeAvailable11ty === 'string'
+          ? JSON.parse(product.storeAvailable11ty || '[]')
+          : product.storeAvailable11ty || [],
+      }));
+  
+      setProducts(parsedData);
+      console.log(`Loaded ${parsedData.length} products`);
+    } catch (err: any) {
+      console.error("Fetch products error:", err);
+      setError(err.message);
+      Alert.alert("Error", `Failed to load products: ${err.message}`);
+    } finally {
+      setLoading(false);
+    }
+  };
+  
 
   useEffect(() => {
-    fetch('http://localhost:3044/api/products')
-      .then((res) => res.json())
-      .then((data) => {
-        setProducts(data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error('Error loading products:', err);
-        setLoading(false);
-      });
+    fetchProducts();
   }, []);
+
+  const handleRetry = () => {
+    fetchProducts();
+  };
 
   return (
     <View style={styles.container}>
@@ -85,87 +115,22 @@ export default function ProductsScreen() {
         onAddProduct={() => console.log('Add Product pressed')}
       />
       <Text style={styles.header}>📦 Product List</Text>
-      {loading ? <ActivityIndicator size="large" color="#7C3AED" /> : <ProductList products={products} />}
+      
+      {error && (
+        <View style={styles.errorContainer}>
+          <Text style={styles.errorText}>{error}</Text>
+          <TouchableOpacity onPress={handleRetry} style={styles.retryButton}>
+            <Text style={styles.retryButtonText}>Retry</Text>
+          </TouchableOpacity>
+        </View>
+      )}
+      
+      {loading ? (
+        <ActivityIndicator size="large" color="#7C3AED" />
+      ) : (
+        <ProductList products={products} />
+      )}
     </View>
   );
 }
 
-// Styles
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 16,
-    backgroundColor: '#F9FAFB',
-  },
-  header: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 12,
-  },
-  productList: {
-    paddingBottom: 100,
-  },
-  productCard: {
-    backgroundColor: '#fff',
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 16,
-    shadowColor: '#000',
-    shadowOpacity: 0.06,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 8,
-    elevation: 2,
-  },
-  cardTop: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-  },
-  productImage: {
-    width: 60,
-    height: 60,
-    borderRadius: 8,
-    backgroundColor: '#e0e0e0',
-    marginRight: 12,
-  },
-  productDetails: {
-    flex: 1,
-    justifyContent: 'space-between',
-  },
-  detailText: {
-    fontSize: 14,
-    color: '#555',
-    marginBottom: 2,
-  },
-  statusButton: {
-    flexDirection: 'row',
-    backgroundColor: '#7C3AED', // purple-600
-    paddingVertical: 4,
-    paddingHorizontal: 10,
-    borderRadius: 20,
-    alignItems: 'center',
-    alignSelf: 'flex-start',
-    marginLeft: 8,
-  },
-  statusButtonDiscontinued: {
-    backgroundColor: '#D1D5DB', // gray-300
-  },
-  statusText: {
-    color: '#fff',
-    fontSize: 13,
-    fontWeight: '600',
-  },
-  statusTextDiscontinued: {
-    color: '#6B7280', // gray-500
-  },
-  arrowIcon: {
-    color: '#fff',
-    fontSize: 16,
-    marginLeft: 4,
-    marginTop: -1,
-  },
-  productName: {
-    fontSize: 16,
-    fontWeight: '600',
-    marginTop: 12,
-  },
-});
