@@ -14,9 +14,9 @@ export default function BottomNavigation({ setCurrentScreen, currentScreen }: Pr
         <Ionicons name="home" size={24} color={currentScreen === 'dashboard' ? '#8B5CF6' : '#444'} />
         <Text style={[styles.navText, currentScreen === 'dashboard' && styles.activeText]}>Home</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.navItem} onPress={() => setCurrentScreen('Add Menu')}>
-        <Ionicons name="add-circle" size={24} color={currentScreen === 'Add Menu' ? '#8B5CF6' : '#444'} />
-        <Text style={[styles.navText, currentScreen === 'Add Menu' && styles.activeText]}>Add</Text>
+      <TouchableOpacity style={styles.navItem} onPress={() => setCurrentScreen('addProduct')}>
+        <Ionicons name="add-circle" size={24} color={currentScreen === 'addProduct' ? '#8B5CF6' : '#444'} />
+        <Text style={[styles.navText, currentScreen === 'addProduct' && styles.activeText]}>Add</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.navItem} onPress={() => setCurrentScreen('products')}>
         <FontAwesome5 name="box-open" size={22} color={currentScreen === 'products' ? '#8B5CF6' : '#444'} />

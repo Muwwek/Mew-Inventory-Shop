@@ -3,7 +3,8 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, SafeAreaView } from 'react-native';
 import ProductsScreen from './ProductsScreen';
-import BottomNavigation from '@/components/BottomNavigation';
+import ButNav from '@/components/BottomNavigation';
+import AddProduct from './AddProduct';
 
 export default function AppLayout() {
   const [currentScreen, setCurrentScreen] = useState('dashboard');
@@ -14,6 +15,8 @@ export default function AppLayout() {
         return <ProductsScreen />;
       case 'dashboard':
         return <ProductsScreen />;
+      case 'addProduct':
+        return <AddProduct />;
       default:
         return (
           <View style={styles.defaultScreen}>
@@ -26,7 +29,6 @@ export default function AppLayout() {
   return (
     <SafeAreaView style={styles.container}>
       {renderScreen()}
-      <BottomNavigation setCurrentScreen={setCurrentScreen} currentScreen={currentScreen} />
     </SafeAreaView>
   );
 }
