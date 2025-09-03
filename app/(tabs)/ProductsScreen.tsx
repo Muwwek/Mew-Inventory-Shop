@@ -92,6 +92,10 @@ export default function ProductsScreen() {
     console.log("Filter pressed");
   };
 
+  const handleAddProduct = () => {
+    console.log("Navigate to AddProduct");
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       {/* Header */}
