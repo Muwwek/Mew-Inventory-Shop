@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Mew-Inventory-Shop",
-    "slug": "Mew-Inventory-Shop",
+    "slug": "mew-inventory-shop-kau4szdkq7q4vlxi1mce2",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -47,8 +47,9 @@
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "53b42816-0a8a-4a94-be51-677c86b02ee9"
+        "projectId": "086d1fde-96d2-4fe5-ac00-61e97a9638a3"
       }
-    }
+    },
+    "owner": "mewadisak"
   }
 }
